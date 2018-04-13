@@ -7,3 +7,4 @@ Ans: This code is run on a certain directory and when it is compiled on that cer
 #TODO 
 1. Memory allocation is not properly handled so, DMA is to be implemented
 2. This code works only for the text files while not for pdfs, docx and different other document files.
+
