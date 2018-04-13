@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <dirent.h>
+#include <dirent.h> //header file especially Linux
 #include <stdlib.h>
 #include <ctype.h>
 
@@ -19,9 +19,8 @@ int directory_files(){
     struct dirent *dir;
 
     d = opendir(".");
-
-    //this is to store values in the argument vector
-    //argv vector takes all filenames
+	
+    //this piece of code stores directory filenames in the dir_filenames
     if (d) {
         while ((dir = readdir(d)) != NULL){
             if(dir->d_name[0] != '.'){
@@ -36,7 +35,8 @@ int directory_files(){
     j = 0;
     for(i = 0 ; i<counter ; i++){
         length[i] = strlen(dir_filenames[i]);
-
+	    
+	//Among all the directory files and folders, we only select the required text files only
         if(dir_filenames[i][length[i]-1] == 't' && dir_filenames[i][length[i]-2] == 'x' && dir_filenames[i][length[i]-3] == 't'){
 	  //set argv to files with txt only
 	  dir_filenames[j] = dir_filenames[i];
@@ -51,7 +51,7 @@ int directory_files(){
     //checked and is true
 }
 
-
+//Comparing the entered string with each condition matching strings of text files
 int compare_word(char *test_string, char *file_path,int init_count){
 
     int word_start = 0;
@@ -87,6 +87,7 @@ int compare_word(char *test_string, char *file_path,int init_count){
     return count;
 }
 
+//read_file function reads the different text files before comparing the strings and after text files are segregated
 int read_file(char *file_path)
 {
     FILE *ptr_file;
@@ -124,14 +125,14 @@ int main(int argc,char **argv){
     int count = 0;
 
     printf("The Text files in the directory are.:\n");
-    m = directory_files();
+    m = directory_files();  //return value is the number of text files on the current directory
     printf("Enter the string you want to search.\n");
-    scanf("%s",str);
+    scanf("%s",str);   //string to be searched
 
     for(i = 0 ; i < m ; i++){
       read_file(dir_filenames[i]);
-      count =  compare_word(str,dir_filenames[i],count);
-      total = count  + total;
+      count =  compare_word(str,dir_filenames[i],count);  //comparing the entered string with with texts on different files
+      total = count  + total;				 // total number of strings repeated on different files
     }
 
      printf("%s has repeated %d no. of times in total.\n",str,total);
